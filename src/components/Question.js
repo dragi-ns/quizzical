@@ -1,6 +1,6 @@
 import sanitizeHtml from 'sanitize-html';
 
-function Question({ title, answers }) {
+function Question({ id, title, answers, selectAnswer }) {
   return (
     <div className="question">
       <p
@@ -13,8 +13,12 @@ function Question({ title, answers }) {
         {answers.map((answer) => {
           return (
             <button
-              className="question--answer"
-              dangerouslySetInnerHTML={{ __html: sanitizeHtml(answer) }}
+              key={answer.id}
+              className={
+                'question--answer' + (answer.selected ? ' selected' : '')
+              }
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(answer.answer) }}
+              onClick={() => selectAnswer(id, answer.id)}
             ></button>
           );
         })}

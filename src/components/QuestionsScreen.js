@@ -1,13 +1,21 @@
 import Question from './Question';
 
-function QuestionsScreen({ questions }) {
+function QuestionsScreen({ questions, selectAnswer }) {
+  const questionElements = questions.map((question) => {
+    return (
+      <Question
+        key={question.id}
+        id={question.id}
+        title={question.title}
+        answers={question.answers}
+        selectAnswer={selectAnswer}
+      />
+    );
+  });
+
   return (
     <div className="qs">
-      <div className="questions">
-        {questions.map((question) => (
-          <Question title={question.title} answers={question.answers} />
-        ))}
-      </div>
+      <div className="questions">{questionElements}</div>
       <button className="qs--button">Check answers</button>
     </div>
   );
