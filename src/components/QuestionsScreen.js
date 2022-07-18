@@ -6,6 +6,7 @@ function QuestionsScreen({
   selectAnswer,
   showResults,
   setShowResults,
+  startGame,
 }) {
   const questionElements = questions.map((question) => {
     return (
@@ -46,7 +47,9 @@ function QuestionsScreen({
           <p>
             You scored {correctAnswersCount}/{questions.length} correct answers
           </p>
-          <button className="qs--button">Play again</button>
+          <button onClick={startGame} className="qs--button">
+            Play again
+          </button>
         </div>
       )}
     </div>

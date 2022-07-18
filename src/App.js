@@ -59,6 +59,11 @@ function App() {
     });
   }
 
+  function startGame() {
+    setShowResults(false);
+    setQuestions(processData(data.results));
+  }
+
   return (
     <div className="app">
       {!startQuiz ? (
@@ -69,6 +74,7 @@ function App() {
           selectAnswer={toggleSelect}
           showResults={showResults}
           setShowResults={() => setShowResults(true)}
+          startGame={startGame}
         />
       )}
     </div>
