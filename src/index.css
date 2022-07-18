@@ -35,11 +35,14 @@ body {
   font-family: 'Inter', sans-serif;
   height: 100vh;
   height: -webkit-fill-available;
+  background-color: var(--background-color);
+  color: var(--foreground-color);
 }
 
 #root,
 .app,
-.sqs {
+.sqs,
+.qs {
   height: 100%;
 }
 
@@ -52,8 +55,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--background-color);
-  color: var(--foreground-color);
   background-image: url('./images/sqs-blob-top.png'),
     url('./images/sqs-blob-bottom.png');
   background-repeat: no-repeat, no-repeat;
@@ -85,5 +86,83 @@ body {
 }
 
 .sqs--button:hover {
+  background-color: #5666af;
+}
+
+/*
+  QUESTIONS SCREEN
+*/
+
+.qs {
+  height: 100%;
+  background-image: url('./images/qs-blob-top.png'),
+    url('./images/qs-blob-bottom.png');
+  background-repeat: no-repeat, no-repeat;
+  background-position: top right, bottom left;
+  background-attachment: fixed, fixed;
+  padding: 40px 75px 0 75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 25px;
+}
+
+.question {
+  border-bottom: 1px solid #dbdef0;
+  padding: 15px 0;
+}
+
+.question--title {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.question--answers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.question--answer {
+  border: 1px solid #4d5b9e;
+  border-radius: 10px;
+  background-color: transparent;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 5px 20px;
+  color: inherit;
+  cursor: pointer;
+}
+
+.question--answer.selected {
+  background-color: #d6dbf5;
+  border-color: #d6dbf5;
+}
+
+.question--answer.wrong {
+  background-color: #f8bcbc;
+  border-color: #f8bcbc;
+  opacity: 0.5;
+}
+
+.question--answer.correct {
+  background-color: #94d7a2;
+  border-color: #94d7a2;
+}
+
+.qs--button {
+  align-self: center;
+  border: none;
+  background-color: #4d5b9e;
+  color: var(--background-color);
+  font-weight: 500;
+  font-size: 0.8rem;
+  border-radius: 10px;
+  padding: 15px 25px;
+  cursor: pointer;
+  transition: background-color 250ms ease-in-out;
+}
+
+.qs--button:hover {
   background-color: #5666af;
 }
