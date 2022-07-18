@@ -5,7 +5,7 @@ function StartQuizScreen({ startQuiz }) {
       <p className="sqs--description">
         Answer fun questions and test your knowledge in this trivia quiz.
       </p>
-      <button className="sqs--button" onClick={startQuiz}>
+      <button className="btn btn--big btn--primary" onClick={startQuiz}>
         Start quiz
       </button>
     </section>

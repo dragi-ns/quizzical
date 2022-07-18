@@ -21,37 +21,33 @@ function QuestionsScreen({
     );
   });
 
-  const correctAnswersCount = questions.reduce((count, question) => {
-    const correct = question.answers.find(
-      (answer) => answer.correct && answer.selected
-    );
-    return count + (correct ? 1 : 0);
-  }, 0);
+  let correctAnswerCount = 0;
+  if (showResults) {
+    correctAnswerCount = questions.reduce((count, question) => {
+      const correct = question.answers.find(
+        (answer) => answer.selected && answer.correct
+      );
+      return count + (correct ? 1 : 0);
+    }, 0);
+  }
 
   return (
-    <div className="qs">
-      <div
-        className={classNames({
-          questions: true,
-          'questions--results': showResults,
-        })}
-      >
-        {questionElements}
-      </div>
-      {!showResults ? (
-        <button onClick={setShowResults} className="qs--button">
-          Check answers
-        </button>
-      ) : (
-        <div className="qs--results">
-          <p>
-            You scored {correctAnswersCount}/{questions.length} correct answers
-          </p>
-          <button onClick={startGame} className="qs--button">
-            Play again
-          </button>
-        </div>
+    <div
+      className={classNames({
+        qs: true,
+        'qs--results': showResults,
+      })}>
+      <div className="questions">{questionElements}</div>
+      {showResults && (
+        <p className="qs--results_notification">
+          You scored {correctAnswerCount}/{questions.length} correct answers!
+        </p>
       )}
+      <button
+        onClick={!showResults ? setShowResults : startGame}
+        className="btn btn--primary qs--button">
+        {!showResults ? 'Check answers' : 'Play again'}
+      </button>
     </div>
   );
 }

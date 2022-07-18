@@ -65,7 +65,7 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <>
       {!startQuiz ? (
         <StartQuizScreen startQuiz={() => setStartQuiz(true)} />
       ) : (
@@ -77,7 +77,7 @@ function App() {
           startGame={startGame}
         />
       )}
-    </div>
+    </>
   );
 }
 
