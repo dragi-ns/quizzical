@@ -6,6 +6,7 @@ import { nanoid } from 'nanoid';
 
 function App() {
   const [startQuiz, setStartQuiz] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const [questions, setQuestions] = useState(processData(data.results));
 
   function processData(data) {
@@ -63,7 +64,12 @@ function App() {
       {!startQuiz ? (
         <StartQuizScreen startQuiz={() => setStartQuiz(true)} />
       ) : (
-        <QuestionsScreen questions={questions} selectAnswer={toggleSelect} />
+        <QuestionsScreen
+          questions={questions}
+          selectAnswer={toggleSelect}
+          showResults={showResults}
+          setShowResults={() => setShowResults(true)}
+        />
       )}
     </div>
   );

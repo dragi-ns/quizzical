@@ -1,6 +1,7 @@
+import classNames from 'classnames';
 import sanitizeHtml from 'sanitize-html';
 
-function Question({ id, title, answers, selectAnswer }) {
+function Question({ id, title, answers, selectAnswer, showResults }) {
   return (
     <div className="question">
       <p
@@ -14,11 +15,16 @@ function Question({ id, title, answers, selectAnswer }) {
           return (
             <button
               key={answer.id}
-              className={
-                'question--answer' + (answer.selected ? ' selected' : '')
-              }
+              className={classNames({
+                'question--answer': true,
+                selected: answer.selected,
+                wrong: showResults && answer.selected && !answer.correct,
+                correct: showResults && answer.correct,
+              })}
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(answer.answer) }}
-              onClick={() => selectAnswer(id, answer.id)}
+              {...(!showResults && {
+                onClick: () => selectAnswer(id, answer.id),
+              })}
             ></button>
           );
         })}

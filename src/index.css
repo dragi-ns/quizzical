@@ -107,6 +107,14 @@ body {
   row-gap: 25px;
 }
 
+.questions--results .question .question--answer {
+  pointer-events: none;
+}
+
+.questions--results .question .question--answer:not(.correct) {
+  opacity: 0.5;
+}
+
 .question {
   border-bottom: 1px solid #dbdef0;
   padding: 15px 0;
@@ -142,7 +150,6 @@ body {
 .question--answer.wrong {
   background-color: #f8bcbc;
   border-color: #f8bcbc;
-  opacity: 0.5;
 }
 
 .question--answer.correct {
@@ -165,4 +172,15 @@ body {
 
 .qs--button:hover {
   background-color: #5666af;
+}
+
+.qs--results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.qs--results > p {
+  font-weight: bold;
 }
