@@ -12,7 +12,7 @@ function App() {
 
   async function getNewQuestions() {
     setIsLoading(true);
-    const response = await fetch('https://opentdb.com/api.php?amount=5');
+    const response = await fetch('https://opentdb.com/api.php?amount=10');
     const data = await response.json();
     setQuestions(processData(data.results));
     setIsLoading(false);
@@ -97,6 +97,15 @@ function App() {
           restartGame={restartGame}
         />
       )}
+      <p className="github-link">
+        &copy; 2022{' '}
+        <a
+          href="https://github.com/dragi-ns/quizzical"
+          target="_blank"
+          rel="noopener noreferrer">
+          dragi-ns
+        </a>
+      </p>
     </>
   );
 }
