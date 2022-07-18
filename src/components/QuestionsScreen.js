@@ -6,7 +6,7 @@ function QuestionsScreen({
   selectAnswer,
   showResults,
   setShowResults,
-  startGame,
+  restartGame,
 }) {
   const questionElements = questions.map((question) => {
     return (
@@ -44,7 +44,7 @@ function QuestionsScreen({
         </p>
       )}
       <button
-        onClick={!showResults ? setShowResults : startGame}
+        onClick={!showResults ? setShowResults : restartGame}
         className="btn btn--primary qs--button">
         {!showResults ? 'Check answers' : 'Play again'}
       </button>

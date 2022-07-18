@@ -1,13 +1,22 @@
 import { useState } from 'react';
+import { nanoid } from 'nanoid';
 import StartQuizScreen from './components/StartQuizScreen';
 import QuestionsScreen from './components/QuestionsScreen';
-import data from './data.json';
-import { nanoid } from 'nanoid';
+import ReactLoading from 'react-loading';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
   const [startQuiz, setStartQuiz] = useState(false);
   const [showResults, setShowResults] = useState(false);
-  const [questions, setQuestions] = useState(processData(data.results));
+  const [questions, setQuestions] = useState([]);
+
+  async function getNewQuestions() {
+    setIsLoading(true);
+    const response = await fetch('https://opentdb.com/api.php?amount=5');
+    const data = await response.json();
+    setQuestions(processData(data.results));
+    setIsLoading(false);
+  }
 
   function processData(data) {
     function formatAnswers(correctAnswer, incorrectAnswers) {
@@ -60,21 +69,32 @@ function App() {
   }
 
   function startGame() {
+    getNewQuestions();
+    setStartQuiz(true);
+  }
+
+  function restartGame() {
     setShowResults(false);
-    setQuestions(processData(data.results));
+    getNewQuestions();
   }
 
   return (
     <>
+      {isLoading && (
+        <div className="loading-overlay">
+          <ReactLoading type="spin" color="#4D5B9E" />
+        </div>
+      )}
+
       {!startQuiz ? (
-        <StartQuizScreen startQuiz={() => setStartQuiz(true)} />
+        <StartQuizScreen startQuiz={startGame} />
       ) : (
         <QuestionsScreen
           questions={questions}
           selectAnswer={toggleSelect}
           showResults={showResults}
           setShowResults={() => setShowResults(true)}
-          startGame={startGame}
+          restartGame={restartGame}
         />
       )}
     </>
