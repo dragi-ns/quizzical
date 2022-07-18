@@ -1,13 +1,89 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import-normalize;
+
+:root,
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+  text-transform: inherit;
+}
+
+:root {
+  --background-color: #f5f7fb;
+  --foreground-color: #293264;
+  height: -webkit-fill-available;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  height: 100vh;
+  height: -webkit-fill-available;
+}
+
+#root,
+.app,
+.sqs {
+  height: 100%;
+}
+
+/*
+  START QUIZ SCREEN
+*/
+
+.sqs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+  background-image: url('./images/sqs-blob-top.png'),
+    url('./images/sqs-blob-bottom.png');
+  background-repeat: no-repeat, no-repeat;
+  background-position: top right, bottom left;
+  padding: 15px;
+}
+
+.sqs--title {
+  font-family: 'Karla', sans-serif;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.sqs--description {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.sqs--button {
+  border: none;
+  background-color: #4d5b9e;
+  color: var(--background-color);
+  font-weight: 500;
+  border-radius: 15px;
+  padding: 15px 35px;
+  cursor: pointer;
+  transition: background-color 250ms ease-in-out;
+}
+
+.sqs--button:hover {
+  background-color: #5666af;
 }
