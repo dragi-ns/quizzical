@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import StartQuizScreen from './components/StartQuizScreen';
 import QuestionsScreen from './components/QuestionsScreen';
 import ReactLoading from 'react-loading';
+import getQuestions from './triviaApi';
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,9 +13,8 @@ function App() {
 
   async function getNewQuestions() {
     setIsLoading(true);
-    const response = await fetch('https://opentdb.com/api.php?amount=10');
-    const data = await response.json();
-    setQuestions(processData(data.results));
+    const data = await getQuestions({});
+    setQuestions(processData(data));
     setIsLoading(false);
   }
 
