@@ -30,7 +30,6 @@ body {
   color: hsl(var(--dark-color));
   height: 100vh;
   height: -webkit-fill-available;
-  flex-direction: column;
 }
 
 .btn {
@@ -41,7 +40,13 @@ body {
   border-radius: 10px;
   padding: 10px 20px;
   cursor: pointer;
-  transition: all 250ms ease-in-out;
+  transform-origin: center;
+  transition: all 150ms ease-in-out;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .btn--small {
@@ -62,62 +67,178 @@ body {
   color: hsl(var(--light-color));
 }
 
-.btn--primary:hover {
+.btn--primary:not(:disabled):hover {
   background-color: hsl(var(--primary-color) / 0.9);
+}
+
+.btn:not(:disabled):active {
+  transform: scale(0.97);
 }
 
 /* TODO: :D this feels 'hacky' try to find better solution */
 body,
 #root,
-.sqs,
-.qs {
+.app,
+.app--main {
   display: flex;
 }
 
 #root,
-.sqs,
-.qs {
+.app {
   flex: 1;
 }
 
-.sqs,
-.qs {
+.app,
+.app--main {
   flex-direction: column;
-  justify-content: center;
-  background-repeat: no-repeat, no-repeat;
-  background-position: top right, bottom left;
-  background-attachment: fixed, fixed;
 }
 
-/* START QUIZ SCREEN */
-
-.sqs {
+.app--main {
+  flex: 1;
+  justify-content: center;
   align-items: center;
-  background-image: url('./images/sqs-blob-top.png'),
-    url('./images/sqs-blob-bottom.png');
+  padding: 20px;
+}
+
+.app--main > canvas {
+  position: fixed !important;
+}
+
+.app--header,
+.app--footer {
   padding: 15px;
 }
 
-.sqs--title {
+.app--header .logo {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.app--footer {
+  text-align: center;
+}
+
+.app--footer a {
+  color: hsl(var(--primary-color));
+}
+
+.app--background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -100;
+  background-repeat: no-repeat, no-repeat;
+  background-position: top right, bottom left;
+  background-attachment: fixed, fixed;
+  background-image: url('./images/sqs-blob-top.png'),
+    url('./images/sqs-blob-bottom.png');
+}
+
+.app--background_questions_screen {
+  background-image: url('./images/qs-blob-top.png'),
+    url('./images/qs-blob-bottom.png');
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  z-index: 100;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  background-color: hsl(var(--light-color));
+}
+
+.logo {
   font-family: 'Karla', sans-serif;
   font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 10px;
+  letter-spacing: -0.1rem;
 }
 
-.sqs--description {
+.logo > span {
+  color: #0084ff;
+}
+
+.description {
   text-align: center;
-  margin-bottom: 30px;
+  margin: 10px 0 30px 0;
 }
 
-/* QUIZ SCREEN */
-
-.qs {
-  background-image: url('./images/qs-blob-top.png'),
-    url('./images/qs-blob-bottom.png');
-  padding: 20px 20px 50px 20px;
-  gap: 20px;
+.questions {
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
+  margin: 0 auto;
 }
+
+.questions--results .question--answer {
+  pointer-events: none;
+}
+
+.questions--results .question--answer:not(.question--answer_correct) {
+  opacity: 0.5;
+}
+
+.control {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.question {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-bottom: 1px solid #dbdef0;
+  padding: 20px 0;
+}
+
+.question--title {
+  font-weight: bold;
+}
+
+.question--answers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.question--answer {
+  flex: 1 1 100%;
+}
+
+@media screen and (min-width: 450px) {
+  .question--answer {
+    flex: 0 0 auto;
+  }
+}
+
+.question--answer_selected {
+  background-color: #d6dbf5;
+  border-color: #d6dbf5;
+}
+
+.question--answer_correct {
+  background-color: #94d7a2;
+  border-color: #94d7a2;
+}
+
+.question--answer_incorrect {
+  background-color: #f8bcbc;
+  border-color: #f8bcbc;
+}
+
+/*
 
 .qs--results .question--answer {
   pointer-events: none;
@@ -172,8 +293,7 @@ body,
 }
 
 .question--answer_selected {
-  background-color: #d6dbf5;
-  border-color: #d6dbf5;
+  
 }
 
 .question--answer_correct {
@@ -182,28 +302,6 @@ body,
 }
 
 .question--answer_incorrect {
-  background-color: #f8bcbc;
-  border-color: #f8bcbc;
+ 
 }
-
-.loading-overlay {
-  z-index: 1000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: hsl(var(--light-color));
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.github-link {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 10px;
-  background-color: hsl(var(--light-color));
-}
+} */

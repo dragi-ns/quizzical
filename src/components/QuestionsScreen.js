@@ -1,25 +1,77 @@
-import classNames from 'classnames';
-import Question from './Question';
+import { useEffect, useState } from 'react';
+import { nanoid } from 'nanoid';
+import ReactConfetti from 'react-confetti';
+import QuestionList from './QuestionList';
+import getQuestions from '../triviaApi';
 
-function QuestionsScreen({
-  questions,
-  selectAnswer,
-  showResults,
-  setShowResults,
-  restartGame,
-}) {
-  const questionElements = questions.map((question) => {
-    return (
-      <Question
-        key={question.id}
-        id={question.id}
-        title={question.title}
-        answers={question.answers}
-        selectAnswer={selectAnswer}
-        showResults={showResults}
-      />
-    );
-  });
+function QuestionsScreen({ setLoading }) {
+  const [showResults, setShowResults] = useState(false);
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    if (!showResults) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      loadQuestions();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showResults]);
+
+  async function loadQuestions() {
+    setLoading(true);
+    const data = await getQuestions({});
+    setQuestions(processData(data));
+    setLoading(false);
+  }
+
+  function processData(data) {
+    function formatAnswers(correctAnswer, incorrectAnswers) {
+      return [
+        {
+          id: nanoid(),
+          selected: false,
+          correct: true,
+          answer: correctAnswer,
+        },
+        ...incorrectAnswers.map((incorrectAnswer) => ({
+          id: nanoid(),
+          selected: false,
+          correct: false,
+          answer: incorrectAnswer,
+        })),
+        // this line shuffles array elements
+        // so that the correct answer is not always on the same spot
+      ].sort(() => (Math.random() > 0.5 ? 1 : -1));
+    }
+
+    return data.map((item) => {
+      return {
+        id: nanoid(),
+        title: item.question,
+        answers: formatAnswers(
+          item['correct_answer'],
+          item['incorrect_answers']
+        ),
+      };
+    });
+  }
+
+  function toggleSelect(questionId, answerId) {
+    setQuestions((prevQuestions) => {
+      return prevQuestions.map((prevQuestion) => {
+        if (prevQuestion.id === questionId) {
+          return {
+            ...prevQuestion,
+            answers: prevQuestion.answers.map((answer) => {
+              return answer.id === answerId
+                ? { ...answer, selected: !answer.selected }
+                : { ...answer, selected: false };
+            }),
+          };
+        }
+        return prevQuestion;
+      });
+    });
+  }
 
   let correctAnswerCount = 0;
   if (showResults) {
@@ -30,25 +82,36 @@ function QuestionsScreen({
       return count + (correct ? 1 : 0);
     }, 0);
   }
+  const shouldDisableCheckAnswers =
+    !showResults &&
+    !questions.every((question) =>
+      question.answers.some((answer) => answer.selected)
+    );
 
   return (
-    <div
-      className={classNames({
-        qs: true,
-        'qs--results': showResults,
-      })}>
-      <div className="questions">{questionElements}</div>
-      {showResults && (
-        <p className="qs--results_notification">
-          You scored {correctAnswerCount}/{questions.length} correct answers!
-        </p>
+    <>
+      {showResults && correctAnswerCount === questions.length && (
+        <ReactConfetti />
       )}
-      <button
-        onClick={!showResults ? setShowResults : restartGame}
-        className="btn btn--primary qs--button">
-        {!showResults ? 'Check answers' : 'Play again'}
-      </button>
-    </div>
+      <QuestionList
+        questions={questions}
+        toggleSelect={toggleSelect}
+        showResults={showResults}
+      />
+      <div className="control">
+        {showResults && (
+          <p>
+            You scored {correctAnswerCount}/{questions.length} correct answers!
+          </p>
+        )}
+        <button
+          onClick={() => setShowResults((prevShowResults) => !prevShowResults)}
+          className="btn btn--primary"
+          disabled={shouldDisableCheckAnswers}>
+          {!showResults ? 'Check answers' : 'Play again'}
+        </button>
+      </div>
+    </>
   );
 }
 

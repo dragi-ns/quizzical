@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import sanitizeHtml from 'sanitize-html';
 
-function Question({ id, title, answers, selectAnswer, showResults }) {
+function Question({ id, title, answers, toggleSelect, showResults }) {
   const answerElements = answers.map((answer) => {
     return (
       <button
@@ -15,20 +15,15 @@ function Question({ id, title, answers, selectAnswer, showResults }) {
           'question--answer_incorrect':
             showResults && answer.selected && !answer.correct,
         })}
-        dangerouslySetInnerHTML={{ __html: sanitizeHtml(answer.answer) }}
-        {...(!showResults && {
-          onClick: () => selectAnswer(id, answer.id),
-        })}></button>
+        {...(!showResults && { onClick: () => toggleSelect(id, answer.id) })}>
+        {sanitizeHtml(answer.answer)}
+      </button>
     );
   });
 
   return (
     <div className="question">
-      <p
-        className="question--title"
-        dangerouslySetInnerHTML={{
-          __html: sanitizeHtml(title),
-        }}></p>
+      <p className="question--title">{sanitizeHtml(title)}</p>
       <div className="question--answers">{answerElements}</div>
     </div>
   );
