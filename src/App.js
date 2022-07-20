@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import ReactLoading from 'react-loading';
 import classNames from 'classnames';
+import Loading from './components/Loading';
 import StartQuizScreen from './components/StartQuizScreen';
 import QuestionsScreen from './components/QuestionsScreen';
 
@@ -17,12 +17,7 @@ function App() {
           </h1>
         </header>
         <main className="app--main">
-          {isLoading && (
-            <div className="loading-overlay">
-              <ReactLoading type="spinningBubbles" color="#293265" />
-              <p>Loading data...</p>
-            </div>
-          )}
+          {isLoading && <Loading />}
           {!quizStarted ? (
             <StartQuizScreen startQuiz={() => setQuizStarted(true)} />
           ) : (
