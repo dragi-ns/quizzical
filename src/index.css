@@ -13,6 +13,8 @@ p {
   margin: 0;
 }
 
+input,
+select,
 button {
   font: inherit;
 }
@@ -169,7 +171,13 @@ body,
 
 .description {
   text-align: center;
-  margin: 10px 0 30px 0;
+  margin-top: 10px;
+}
+
+.api-error {
+  color: darkred;
+  text-align-last: center;
+  margin-top: 10px;
 }
 
 .questions {
@@ -236,4 +244,56 @@ body,
 .question--answer_incorrect {
   background-color: #f8bcbc;
   border-color: #f8bcbc;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-field .counter-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.form-field .counter-container button {
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.form-field .counter-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  flex: 1;
+  text-align: center;
+}
+
+.form-field label {
+  text-transform: uppercase;
+  letter-spacing: -0.05rem;
+  font-weight: 500;
+}
+
+.form-field input[type='number'],
+.form-field select {
+  font-size: 0.9rem;
+  border: 1px solid hsl(var(--primary-color));
+  border-radius: 10px;
+  padding: 10px;
+  background-color: transparent;
+}
+
+.form button {
+  margin-top: 10px;
 }

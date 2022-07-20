@@ -7,21 +7,31 @@ export const ResponseCode = Object.freeze({
 });
 
 async function getQuestions({
-  amount = 5,
-  categoryId = '',
+  numOfQuestions = 5,
+  category = '',
   difficulty = '',
   type = '',
 }) {
   const response = await fetch(
-    `https://opentdb.com/api.php?amount=${amount}&category=${categoryId}&difficulty=${difficulty}&type=${type}`
+    `https://opentdb.com/api.php?amount=${numOfQuestions}&category=${category}&difficulty=${difficulty}&type=${type}`
   );
   if (!response.ok) {
-    throw new Error('Network response was not OK');
+    throw new Error(
+      'An error occurred while trying to get trivia questions. Please try again later.'
+    );
   }
 
   const data = await response.json();
+  if (data.response_code === ResponseCode.NO_RESULTS) {
+    throw new Error(
+      'There are currenlty no results with the given opitons. Please try again with different options.'
+    );
+  }
+
   if (data.response_code !== ResponseCode.SUCCESS) {
-    throw new Error('OpenTDB API response was not OK');
+    throw new Error(
+      'An error occurred while trying to get trivia questions. Please try again later.'
+    );
   }
 
   return data.results;

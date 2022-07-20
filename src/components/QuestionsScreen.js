@@ -4,7 +4,7 @@ import ReactConfetti from 'react-confetti';
 import QuestionList from './QuestionList';
 import getQuestions from '../triviaApi';
 
-function QuestionsScreen({ setLoading }) {
+function QuestionsScreen({ formData, handleApiError, setLoading }) {
   const [showResults, setShowResults] = useState(false);
   const [questions, setQuestions] = useState([]);
 
@@ -18,7 +18,14 @@ function QuestionsScreen({ setLoading }) {
 
   async function loadQuestions() {
     setLoading(true);
-    const data = await getQuestions({});
+    let data = null;
+    try {
+      data = await getQuestions(formData);
+    } catch (error) {
+      handleApiError(error);
+      setLoading(false);
+      return;
+    }
     setQuestions(processData(data));
     setLoading(false);
   }
