@@ -176,7 +176,7 @@ body,
 
 .api-error {
   color: darkred;
-  text-align-last: center;
+  text-align: center;
   margin-top: 10px;
 }
 
